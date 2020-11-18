@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html ng-app="aitu-project">
+<head>
+    <meta charset="utf-8" />
+    <title>Product List</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.4/css/bootstrap.min.css" />
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+</head>
+<style>
+
+    .ffffffff a:hover {background-color: #ddd;}
+
+
+</style>
+<body ng-controller="ProductCtrl">
+<script>
+    var mybutton = document.getElementById("myBtn");
+    window.onscroll = function() {scrollFunction()};
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            mybutton.style.display = "block";
+        } else {
+            mybutton.style.display = "none";
+        }
+    }
+
+</script>
+<form ng-submit="signIn(account)" method="POST">
+    <div class="container">
+        <div class="col-lg-6">
+            <input type="text" placeholder="Your login" name="login" required ng-model="account.login" class="form-control form-control-lg inverse-mode">
+            <input type="password" placeholder="Your password" name="password" required ng-model="account.password" class="form-control form-control-lg inverse-mode">
+            <button type="submit" class="btn btn-success btn-block btn-lg">Войти</button>
+        </div>
+    </div>
+</form>
+
+<div class="row" style="text-align: center">
+    <div class="col-lg-12">
+        <h1 <label class="col-sm-2 col-form-label" style="text-align: center">{{shopMessage}} {{shop.name}}</label></h1>
+    </div>
+
+</div>
+
+<div class="container">
+
+
+    <h3>Product List</h3>
+    <div class="row">
+        <div class="col-log-12">
+            <div id="options" class="m-b-10">
+                <a ng-repeat="i in categoryName" class="btn btn-default btn-xs active" ng-click="getProductsByCategory(i.id)" ng-model="category.id">{{i.name}}</a>
+            </div>
+        </div>
+        <div class="row">
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                <th></th>
+                <th>ID</th>
+                <th>Category type</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Description</th>
+                </thead>
+                <tr ng-repeat="product in productList | orderBy: 'id'">
+                    <td ng-click="addProduct(product)"><button class="btn btn-danger btn-md" >Add</button></td>
+
+                    <td ng-bind="product.id"></td>
+                    <td ng-bind="product.category_id"></td>
+                    <td ng-bind="product.name"></td>
+                    <td ng-bind="product.price"></td>
+                    <td ng-bind="product.description"></td>
+                </tr>
+            </table>
+            <br><br>
+            <b>Your Orders</b>
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                <th></th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                </thead>
+                <tr ng-repeat="product in orderProductList" >
+                    <td ng-click="removeProduct(product)"><button class="btn btn-danger btn-md">REMOVE</button></td>
+                    <td ng-bind="product.name"></td>
+                    <td ng-bind="product.description"></td>
+                    <td ng-bind="product.price"></td>
+                    <td ng-bind="product.quantity"></td>
+                </tr>
+                <tr ng-bind="totalPrice"></tr>
+            </table>
+            <button ng-click="SendOrder()" type="button" class="btn btn-primary btn-block btn-lg">Send</button>
+            <button ng-click="SeeOrder()" type="button" class="btn btn-primary btn-block btn-lg">See Order</button>
+
+
+            <table class="table table-bordered table-striped table-condensed">
+                <thead>
+                <th>ID</th>
+                <th>Shop ID</th>
+                <th>Date</th>
+                <th>Total Price</th>
+                </thead>
+                <tr ng-repeat="order_item in orderitemList | orderBy: 'id'">
+                    <td ng-bind="order_item.id"></td>
+                    <td ng-bind="order_item.shop_id"></td>
+                    <td>{{order_item.date | date:'dd.MM.yyyy'}}</td>
+                    <td ng-bind="order_item.total_price"></td>
+                </tr>
+            </table>
+        </div>
+
+
+    </div>
+</body>
+</html>
